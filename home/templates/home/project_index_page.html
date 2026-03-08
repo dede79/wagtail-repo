@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-projects{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <section class="section">
+    <div class="container">
+
+      <p class="section-label">Work</p>
+      <h1 class="section-title">{{ page.title }}</h1>
+
+      {% if page.intro %}
+        <div class="rich-text" style="max-width: 600px; margin-bottom: 1rem;">
+          {{ page.intro|richtext }}
+        </div>
+      {% endif %}
+
+      <hr class="divider">
+
+      {% if projects %}
+        <div class="projects__grid">
+          {% for project in projects %}
+            <a href="{% pageurl project %}" class="project-card">
+
+              <div class="project-card__thumb">
+                {% if project.thumbnail %}
+                  {% image project.thumbnail fill-600x340 as thumb %}
+                  <img src="{{ thumb.url }}" alt="{{ project.title }}">
+                {% else %}
+                  <div class="project-card__thumb-placeholder">No image</div>
+                {% endif %}
+              </div>
+
+              <div class="project-card__body">
+                <h2 class="project-card__title">{{ project.title }}</h2>
+                <p class="project-card__summary">{{ project.summary }}</p>
+
+                {% if project.tech_stack %}
+                  <div class="tag-list">
+                    {% for block in project.tech_stack %}
+                      {% if block.block_type == 'tag' %}
+                        <span class="tag">{{ block.value.tag }}</span>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <div class="project-card__links">
+                  <span>View project →</span>
+                </div>
+              </div>
+
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="color: var(--text-dim); margin-top: 3rem;">No projects yet — add some in the Wagtail admin!</p>
+      {% endif %}
+
+    </div>
+  </section>
+</div>
+{% endblock %}

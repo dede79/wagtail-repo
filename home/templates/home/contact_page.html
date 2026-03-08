@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-contact{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <section class="section">
+    <div class="container">
+
+      <p class="section-label">Get in touch</p>
+      <h1 class="section-title">{{ page.title }}</h1>
+      <hr class="divider" style="margin-bottom: 4rem;">
+
+      <div class="contact__grid">
+
+        <!-- Left: info + socials -->
+        <div>
+          {% if page.intro %}
+            <div class="contact__info-text rich-text">
+              {{ page.intro|richtext }}
+            </div>
+          {% endif %}
+
+          <div class="contact__socials">
+            {% if page.email_address %}
+              <a href="mailto:{{ page.email_address }}" class="contact__social-link">
+                <span>✉</span> {{ page.email_address }}
+              </a>
+            {% endif %}
+            {% if page.github_url %}
+              <a href="{{ page.github_url }}" class="contact__social-link" target="_blank">
+                <span>⌥</span> GitHub
+              </a>
+            {% endif %}
+            {% if page.linkedin_url %}
+              <a href="{{ page.linkedin_url }}" class="contact__social-link" target="_blank">
+                <span>in</span> LinkedIn
+              </a>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Right: form or thank you -->
+        <div>
+          {% if form %}
+            <form class="wagtail-form" action="{% pageurl page %}" method="POST">
+              {% csrf_token %}
+              {% for field in form %}
+                <div class="field">
+                  {{ field.label_tag }}
+                  {{ field }}
+                </div>
+              {% endfor %}
+              <button type="submit">Send message →</button>
+            </form>
+          {% else %}
+            <div class="thank-you">
+              <h2>Thanks! 🎉</h2>
+              {% if page.thank_you_text %}
+                <div class="rich-text">{{ page.thank_you_text|richtext }}</div>
+              {% else %}
+                <p style="color: var(--text-muted);">Your message has been received. I'll get back to you soon.</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__grid">
+
+        <div class="hero__text">
+          <p class="hero__eyebrow">Portfolio</p>
+          <h1 class="hero__title">
+            {{ page.hero_text|default:"Hello, I'm<br><em>Your Name</em>" }}
+          </h1>
+          {% if page.hero_cta and page.hero_cta_link %}
+            <a href="{% pageurl page.hero_cta_link %}" class="hero__cta">
+              {{ page.hero_cta }} →
+            </a>
+          {% endif %}
+        </div>
+
+        <div class="hero__image-wrap">
+          {% if page.image %}
+            {% image page.image fill-600x750 as hero_img %}
+            <img src="{{ hero_img.url }}" alt="{{ page.title }}">
+          {% else %}
+            <div class="hero__image-placeholder">No image set</div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {% if page.body %}
+  <hr class="divider">
+  <section class="section">
+    <div class="container">
+      <div class="rich-text">{{ page.body|richtext }}</div>
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+{% endblock %}

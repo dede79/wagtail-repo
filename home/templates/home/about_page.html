@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-about{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <section class="section">
+    <div class="container">
+
+      <p class="section-label">About me</p>
+      <h1 class="section-title">{{ page.title }}</h1>
+      <hr class="divider" style="margin-bottom: 4rem;">
+
+      <div class="about__grid">
+
+        <!-- Photo -->
+        <div class="about__photo">
+          {% if page.photo %}
+            {% image page.photo fill-400x520 as photo %}
+            <img src="{{ photo.url }}" alt="{{ page.title }}">
+          {% else %}
+            <div class="about__photo-placeholder">No photo set</div>
+          {% endif %}
+        </div>
+
+        <!-- Bio + Skills -->
+        <div>
+          <div class="about__bio rich-text">
+            {{ page.bio|richtext }}
+          </div>
+
+          {% if page.cv_document %}
+            <a href="{{ page.cv_document.url }}" class="about__cv-btn" target="_blank">
+              ↓ Download CV
+            </a>
+          {% endif %}
+
+          {% if page.skills %}
+            <p class="section-label">Skills</p>
+            <div class="skills__grid">
+              {% for block in page.skills %}
+                {% if block.block_type == 'skill' %}
+                  <div class="skill-card">
+                    <div class="skill-card__name">{{ block.value.name }}</div>
+                    <div class="skill-card__level">{{ block.value.level }}</div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-experience{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <section class="section">
+    <div class="container">
+
+      <p class="section-label">Career</p>
+      <h1 class="section-title">{{ page.title }}</h1>
+
+      {% if page.intro %}
+        <p style="color: var(--text-muted); max-width: 600px; margin-bottom: 1rem;">
+          {{ page.intro }}
+        </p>
+      {% endif %}
+
+      <hr class="divider" style="margin-bottom: 1rem;">
+
+      {% if page.experience %}
+        <div class="timeline">
+          {% for block in page.experience %}
+            {% if block.block_type == 'job' %}
+              <div class="timeline-item">
+                <div class="timeline-item__dates">
+                  {{ block.value.start_date|date:"M Y" }} —
+                  {% if block.value.end_date %}
+                    {{ block.value.end_date|date:"M Y" }}
+                  {% else %}
+                    Present
+                  {% endif %}
+                </div>
+                <div class="timeline-item__role">{{ block.value.role }}</div>
+                <div class="timeline-item__company">{{ block.value.company }}</div>
+                <div class="timeline-item__desc rich-text">
+                  {{ block.value.description|richtext }}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="color: var(--text-dim); margin-top: 3rem;">No experience entries yet.</p>
+      {% endif %}
+
+    </div>
+  </section>
+</div>
+{% endblock %}

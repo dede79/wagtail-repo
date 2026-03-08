@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-project-detail{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <section class="section">
+    <div class="container">
+
+      <!-- Back link -->
+      {% with page.get_parent as parent %}
+        <a href="{% pageurl parent %}" style="
+          font-family: var(--font-head);
+          font-size: .8rem;
+          font-weight: 600;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          color: var(--text-muted);
+          display: inline-flex;
+          align-items: center;
+          gap: .4rem;
+          margin-bottom: 2rem;
+        ">← All projects</a>
+      {% endwith %}
+
+      <p class="section-label">Project</p>
+      <h1 class="section-title">{{ page.title }}</h1>
+      <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2rem;">
+        {{ page.summary }}
+      </p>
+
+      <!-- Tech tags -->
+      {% if page.tech_stack %}
+        <div class="tag-list" style="margin-bottom: 2.5rem;">
+          {% for block in page.tech_stack %}
+            {% if block.block_type == 'tag' %}
+              <span class="tag">{{ block.value.tag }}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Hero image -->
+      {% if page.thumbnail %}
+        <div class="project-detail__hero">
+          {% image page.thumbnail fill-1200x514 as hero %}
+          <img src="{{ hero.url }}" alt="{{ page.title }}">
+        </div>
+      {% endif %}
+
+      <!-- Description -->
+      <div class="project-detail__body rich-text">
+        {{ page.description|richtext }}
+      </div>
+
+      <!-- Links -->
+      {% if page.live_url or page.repo_url %}
+        <div class="project-detail__links">
+          {% if page.live_url %}
+            <a href="{{ page.live_url }}" class="btn btn--primary" target="_blank">
+              ↗ Live project
+            </a>
+          {% endif %}
+          {% if page.repo_url %}
+            <a href="{{ page.repo_url }}" class="btn btn--outline" target="_blank">
+              ⌥ Source code
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+    </div>
+  </section>
+</div>
+{% endblock %}
