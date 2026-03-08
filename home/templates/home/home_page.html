@@ -12,9 +12,9 @@
       <div class="hero__grid">
 
         <div class="hero__text">
-          <p class="hero__eyebrow">Portfolio</p>
+          <!-- <p class="hero__eyebrow">Portfolio</p> -->
           <h1 class="hero__title">
-            {{ page.hero_text|default:"Hello, I'm<br><em>Your Name</em>" }}
+            {{ page.hero_text|default:"Hello, I'm<br><em>Andrea!</em>" }}
           </h1>
           {% if page.hero_cta and page.hero_cta_link %}
             <a href="{% pageurl page.hero_cta_link %}" class="hero__cta">

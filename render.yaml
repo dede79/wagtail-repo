@@ -1,0 +1,27 @@
+databases:
+  - name: ahportfolio-db
+    databaseName: ahportfolio
+    user: ahportfolio
+    plan: free
+
+services:
+  - type: web
+    name: ahportfolio
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn myPortfolio.wsgi:application"
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ahportfolio-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DJANGO_SETTINGS_MODULE
+        value: myPortfolio.settings.production
+      - key: RENDER_EXTERNAL_HOSTNAME
+        fromService:
+          type: web
+          name: ahportfolio
+          property: host
