@@ -21,5 +21,5 @@ MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware'] + MIDDLEWARE
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (uploaded images/docs)
-MEDIA_URL = '/opt/render/project/src/media'
+MEDIA_URL = '/opt/render/project/src/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
