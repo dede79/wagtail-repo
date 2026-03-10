@@ -22,4 +22,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (uploaded images/docs)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/opt/render/project/src/media/'
+MEDIA_ROOT = '/opt/render/project/src/storage/'
