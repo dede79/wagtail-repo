@@ -21,12 +21,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware'] + MIDDLEWARE
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Cloudinary for media files (uploaded images/docs)
-INSTALLED_APPS = INSTALLED_APPS + [
-    'cloudinary',
-    'cloudinary_storage',
-]
-
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY':    os.environ.get('CLOUDINARY_API_KEY'),
