@@ -26,7 +26,7 @@
         <div class="hero__image-wrap">
           {% if page.image %}
             {% image page.image fill-600x750 as hero_img %}
-            <img src="https://res.cloudinary.com/dn5nn8omf/image/upload/v1773437505/laptop.jpg" alt="{{ page.title }}">
+            <img src="{{ hero_img.url }}" alt="{{ page.title }}">
           {% else %}
             <div class="hero__image-placeholder">No image set</div>
           {% endif %}
