@@ -7,6 +7,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from modelcluster.fields import ParentalKey
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.contrib.forms.panels import FormSubmissionsPanel
+from wagtail.images.models import AbstractImage, AbstractRendition, Image
 
 
 # ---------------------------------------------------------------------------
@@ -39,13 +40,58 @@ class TechTagBlock(StructBlock):
         icon = "tag"
 
 
+class CloudinaryImage(AbstractImage):
+    admin_form_fields = Image.admin_form_fields
+
+    def get_rendition(self, filter):
+        rendition = super().get_rendition(filter)
+        return rendition
+
+    @property
+    def default_alt_text(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Image'
+
+
+class CloudinaryRendition(AbstractRendition):
+    image = models.ForeignKey(
+        CloudinaryImage,
+        on_delete=models.CASCADE,
+        related_name='renditions'
+    )
+
+    @property
+    def url(self):
+        # Use Cloudinary's transformation URL directly
+        import cloudinary
+        import cloudinary.utils
+        # Extract the public_id from the original file
+        public_id = self.image.file.name
+        # Parse the filter to get dimensions
+        filter_spec = self.filter_spec
+        width = self.width
+        height = self.height
+        url, _ = cloudinary.utils.cloudinary_url(
+            public_id,
+            width=width,
+            height=height,
+            crop="fill",
+            secure=True
+        )
+        return url
+
+    class Meta:
+        unique_together = (('image', 'filter_spec', 'focal_point_key'),)
+
 # ---------------------------------------------------------------------------
-# Home Page  (keeping your original fields)
+# Home Page
 # ---------------------------------------------------------------------------
 
 class HomePage(Page):
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        "home.CloudinaryImage",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -97,7 +143,7 @@ class HomePage(Page):
 
 class AboutPage(Page):
     photo = models.ForeignKey(
-        "wagtailimages.Image",
+        "home.CloudinaryImage",
         null=True, blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
@@ -181,7 +227,7 @@ class ProjectPage(Page):
     summary = models.CharField(max_length=255, help_text="One-line description shown on the projects grid")
     description = RichTextField(help_text="Full project description")
     thumbnail = models.ForeignKey(
-        "wagtailimages.Image",
+        "home.CloudinaryImage",
         null=True, blank=True,
         on_delete=models.SET_NULL,
         related_name="+",

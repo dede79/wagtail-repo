@@ -26,5 +26,5 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 
-WAGTAILIMAGES_IMAGE_MODEL = 'wagtailimages.Image'
+WAGTAILIMAGES_IMAGE_MODEL = 'home.CloudinaryImage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
