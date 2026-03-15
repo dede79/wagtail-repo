@@ -18,7 +18,7 @@
         <div class="about__photo">
           {% if page.photo %}
             {% image page.photo fill-400x520 as photo %}
-            <img src="https://res.cloudinary.com/dn5nn8omf/image/upload/v1773434461/ah-profile-new_v566bt.jpg" alt="{{ page.title }}">
+            <img src="{{ photo.url }}" alt="{{ page.title }}">
           {% else %}
             <div class="about__photo-placeholder">No photo set</div>
           {% endif %}

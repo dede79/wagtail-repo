@@ -17,3 +17,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = 'https://res.cloudinary.com/dn5nn8omf/'
+
+WAGTAILIMAGES_IMAGE_MODEL = 'wagtailimages.Image'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
