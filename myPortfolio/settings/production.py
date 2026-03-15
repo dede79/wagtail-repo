@@ -1,6 +1,5 @@
 import os
 import dj_database_url
-import cloudinary_storage
 import cloudinary
 from .base import *
 
@@ -25,6 +24,14 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
+
+# Explicitly initialise Cloudinary SDK
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET'),
+    secure=True
+)
 
 WAGTAILIMAGES_IMAGE_MODEL = 'home.CloudinaryImage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
