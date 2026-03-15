@@ -1,5 +1,7 @@
 import os
 import dj_database_url
+import cloudinary_storage
+import cloudinary
 from .base import *
 
 DEBUG = False
